@@ -16,7 +16,10 @@ public class GenerateFiles {
         String clang_cmd = String.format("clang -emit-llvm %s -c -o %s", c_file, bc_file);
         try {
             Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", clang_cmd});
+            p.waitFor();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -27,7 +30,10 @@ public class GenerateFiles {
         String opt_cmd = String.format("opt -print-callgraph %s 2> %s", bc_file, call_graph);
         try {
             Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", opt_cmd});
+            p.waitFor();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
