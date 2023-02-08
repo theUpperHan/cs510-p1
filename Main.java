@@ -6,6 +6,8 @@ public class Main {
         GenerateFiles.generateCallGraph("test.c", "test.bc", "callgraph.txt");
         CallGraph callGraph = GenerateCallGraph.generate("callgraph.txt");
         System.out.println(callGraph);
+        Analyzer analyzer = new Analyzer();
+        analyzer.analyzeCallGraph(callGraph);
     }
 
 }

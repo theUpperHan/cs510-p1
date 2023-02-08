@@ -26,8 +26,8 @@ public class Function {
         this.name = name;
     }
 
-    public String getFunctionCalls() {
-        return name;
+    public List<String> getFunctionCalls() {
+        return functionCalls;
     }
 
     @Override
