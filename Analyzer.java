@@ -2,6 +2,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Analyzer {
     private static int T_SUPPORT = 3;
@@ -44,7 +45,9 @@ public class Analyzer {
             if(current_function.equals("null function") || (current_function.equals("main")))
                 continue;
             
-            List<String> func_calls = func.getFunctionCalls();
+            List<String> func_calls_list = func.getFunctionCalls();
+            HashSet<String> func_calls_set = new HashSet<String>(func_calls_list);
+            List<String> func_calls = new ArrayList<String>(func_calls_set);
 
             //Only keep worth-analyze scopes
             if (func_calls.size() > 1) {
@@ -72,6 +75,8 @@ public class Analyzer {
         // System.out.println(individuals);
         // System.out.println(pairs);
         // System.out.println(scopes);
+
+        // System.out.println(scopes); 
 
         for (Map.Entry<String, Double> pair_entry : pairs.entrySet()) {
             if (pair_entry.getValue() >= T_SUPPORT) {

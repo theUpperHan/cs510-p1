@@ -33,6 +33,7 @@ public class GenerateCallGraph {
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         CallGraph callGraph = new CallGraph();
+        // System.out.println("here");
 
         while (true) {
             String line = br.readLine();
@@ -48,6 +49,9 @@ public class GenerateCallGraph {
                 // normal function
                 int start = line.indexOf("\'");
                 int end = line.lastIndexOf("\'");
+                if (start == -1 || end == -1) {
+                    continue;
+                }
                 functionName = line.substring(start + 1, end);
             } else {
                 // null function

@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class GenerateFiles {
     private static void generateBitCode(String c_file, String bc_file) {
@@ -26,10 +25,15 @@ public class GenerateFiles {
 
     public static void generateCallGraph(String bc_file, String call_graph) {
         // generateBitCode(c_file, bc_file);
+        // System.out.println("generateCallGraph");
 
         String opt_cmd = String.format("opt -print-callgraph %s 2> %s", bc_file, call_graph);
+
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", opt_cmd});
+            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", opt_cmd});
+            BufferedReader reader =
+            new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while ((reader.readLine()) != null) {}
             p.waitFor();
         } catch (IOException e) {
             throw new RuntimeException(e);

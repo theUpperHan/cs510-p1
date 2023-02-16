@@ -22,6 +22,8 @@ public class Main {
         GenerateFiles.generateCallGraph(args[0], "callgraph.txt");
         CallGraph callGraph = GenerateCallGraph.generate("callgraph.txt");
 
+        // System.out.println(callGraph);
+
         analyzer.analyzeCallGraph(callGraph);
         for (String s : analyzer.getPotentialBugs()) {
             System.out.println(s);
