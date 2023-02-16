@@ -24,8 +24,8 @@ public class GenerateFiles {
         }
     }
 
-    public static void generateCallGraph(String c_file, String bc_file, String call_graph) {
-        generateBitCode(c_file, bc_file);
+    public static void generateCallGraph(String bc_file, String call_graph) {
+        // generateBitCode(c_file, bc_file);
 
         String opt_cmd = String.format("opt -print-callgraph %s 2> %s", bc_file, call_graph);
         try {

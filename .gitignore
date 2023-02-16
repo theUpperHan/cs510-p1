@@ -1,3 +1,2 @@
 *.class
 callgraph.txt
-*.bc

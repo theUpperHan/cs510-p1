@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Analyzer {
-    private static final int T_SUPPORT = 3;
-    private static final double T_CONFIDENCE = 0.65;
+    private static int T_SUPPORT = 3;
+    private static double T_CONFIDENCE = 0.65;
     private static final String DELIMITER = "#";
     
     private Map<String, Double> individuals;
@@ -18,6 +18,8 @@ public class Analyzer {
         pairs = new HashMap<>();
         scopes = new HashMap<>();
         potentialBugs = new ArrayList<String>();
+        T_SUPPORT = 3;
+        T_CONFIDENCE = 0.65;
     }
 
     private String hashPair(String a, String b) {
@@ -30,7 +32,7 @@ public class Analyzer {
         if (confidence >= T_CONFIDENCE) {
             String pair_members[] = pair.split(DELIMITER);
             String reformated_pair = String.format("(%s, %s)", pair_members[0], pair_members[1]);
-            potentialBugs.add(String.format("Bug %s in %s, pair %s, support: %.0f, confidence: %.2f%%",
+            potentialBugs.add(String.format("bug %s in %s, pair %s, support: %.0f, confidence: %.2f%%",
                                             ind_name, scope, reformated_pair, pair_support, confidence*100));
         }
     }
@@ -67,9 +69,9 @@ public class Analyzer {
     public void analyzeCallGraph(CallGraph callGraph) {
         populateMaps(callGraph);
 
-        System.out.println(individuals);
-        System.out.println(pairs);
-        System.out.println(scopes);
+        // System.out.println(individuals);
+        // System.out.println(pairs);
+        // System.out.println(scopes);
 
         for (Map.Entry<String, Double> pair_entry : pairs.entrySet()) {
             if (pair_entry.getValue() >= T_SUPPORT) {
@@ -94,5 +96,17 @@ public class Analyzer {
             }
         }
         
+    }
+
+    List<String> getPotentialBugs() {
+        return potentialBugs;
+    }
+
+    void setSupport(int T_SUPPORT) {
+        this.T_SUPPORT = T_SUPPORT;
+    }
+
+    void setConfidence(double T_CONFIDENCE) {
+        this.T_CONFIDENCE = T_CONFIDENCE;
     }
 }
