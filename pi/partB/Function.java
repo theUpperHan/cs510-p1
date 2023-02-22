@@ -30,6 +30,10 @@ public class Function {
         return functionCalls;
     }
 
+    public void setFunctionCalls(List<String> functionCalls) {
+        this.functionCalls = functionCalls;
+    }
+
     @Override
     public String toString() {
         return "{ name: " + name + ", functionCalls: " + functionCalls + " }";
