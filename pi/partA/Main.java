@@ -13,7 +13,8 @@ public class Main {
         if (args.length == 3) {
             try {
                 analyzer.setSupport(Integer.parseInt(args[1]));
-                analyzer.setConfidence(Double.parseDouble(args[2]));
+                analyzer.setConfidence(Double.parseDouble(args[2]) / 100);
+                // System.out.println(Double.parseDouble(args[2]) / 100);
             } catch (Exception e) {
                 e.printStackTrace();
             }

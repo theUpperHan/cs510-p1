@@ -30,11 +30,18 @@ public class Analyzer {
 
     private void checkValidBug(String ind_name, double pair_support, String scope, String pair) {
         double confidence = pair_support / individuals.get(ind_name);
+
         if (confidence >= T_CONFIDENCE) {
             String pair_members[] = pair.split(DELIMITER);
             String reformated_pair = String.format("(%s, %s)", pair_members[0], pair_members[1]);
-            potentialBugs.add(String.format("bug %s in %s, pair %s, support: %.0f, confidence: %.2f%%",
+            potentialBugs.add(String.format("bug: %s in %s, pair: %s, support: %.0f, confidence: %.2f%%",
                                             ind_name, scope, reformated_pair, pair_support, confidence*100));
+
+            // if (pair.equals("apr_array_make#apr_array_push") && ind_name.equals("apr_array_push")) {
+            //     System.out.println(confidence);
+            //     System.out.println(String.format("bug: %s in %s, pair: %s, support: %.0f, confidence: %.2f%%",
+            //                                 ind_name, scope, reformated_pair, pair_support, confidence*100));
+            // }                  
         }
     }
 
@@ -42,15 +49,15 @@ public class Analyzer {
         for (Function func : callGraph.getFunctions()) {
             // Pass null and main
             String current_function = func.getName();
-            if(current_function.equals("null function") || (current_function.equals("main")))
+            if(current_function.equals("null function"))
                 continue;
             
             List<String> func_calls_list = func.getFunctionCalls();
             HashSet<String> func_calls_set = new HashSet<String>(func_calls_list);
             List<String> func_calls = new ArrayList<String>(func_calls_set);
 
-            //Only keep worth-analyze scopes
-            if (func_calls.size() > 1) {
+            // Only keep worth-analyze scopes
+            if (func_calls.size() >= 1) {
                 scopes.put(current_function, func_calls);
             }
             
@@ -71,12 +78,6 @@ public class Analyzer {
 
     public void analyzeCallGraph(CallGraph callGraph) {
         populateMaps(callGraph);
-
-        // System.out.println(individuals);
-        // System.out.println(pairs);
-        // System.out.println(scopes);
-
-        // System.out.println(scopes); 
 
         for (Map.Entry<String, Double> pair_entry : pairs.entrySet()) {
             if (pair_entry.getValue() >= T_SUPPORT) {
