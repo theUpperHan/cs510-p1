@@ -41,6 +41,7 @@ void scope2() {
 void scope3() {
   A();
   B();
+  B();
 }
 
 void scope4() {
@@ -75,3 +76,4 @@ void C() {
 void D() {
   printf("D\n");
 }
+

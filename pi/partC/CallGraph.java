@@ -35,20 +35,23 @@ public class CallGraph {
         return sb.toString();
     }
 
-    public void expand() {
-        for (Function func_entry : functions) {
-            List<String> expanded = new ArrayList<>(); //expanded function calls
+    public void expand(int level) {
+        for (int i = 0; i < level; i++) {
+            for (Function func_entry : functions) {
+                List<String> expanded = new ArrayList<>(); //expanded function calls
             
-            for (String func : func_entry.getFunctionCalls()) {
-                if (functionsMap.get(func).size() > 0) { //if expandable
-                    expanded.addAll(functionsMap.get(func));
+                for (String func : func_entry.getFunctionCalls()) {
+                    if (functionsMap.get(func).size() > 0) { //if expandable
+                        expanded.addAll(functionsMap.get(func));
+                    }
+                    else {
+                        expanded.add(func);
+                    }
                 }
-                else {
-                    expanded.add(func);
-                }
-            }
 
-            func_entry.setFunctionCalls(expanded);
+                func_entry.setFunctionCalls(expanded);
+            }
         }
+
     }
 }
